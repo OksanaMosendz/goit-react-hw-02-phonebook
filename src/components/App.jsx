@@ -1,44 +1,48 @@
-import React from "react";
+import React from 'react';
 
-import { ContactForm } from "./ContactForm/ContactForm";
-import { Filter } from './Filter/Filter'
-import {ContactList} from './ContactList/ContactList'
+import { ContactForm } from './ContactForm/ContactForm';
+import { Filter } from './Filter/Filter';
+import { ContactList } from './ContactList/ContactList';
 import { v4 as uuidv4 } from 'uuid';
 
 export class App extends React.Component {
-  
   state = {
     contacts: [],
-    filter:'',
+    filter: '',
   };
 
-  HandleSearchContactByName = (e) => {
+  HandleSearchContactByName = e => {
     this.setState({ filter: e.target.value });
-  }
+  };
 
   HandleFormSubmit = (name, number) => {
     const { contacts } = this.state;
-    const isInList = contacts.some((contact) => contact.name === name);
-    
-    isInList ? alert(name +' is already in contacts.' ) : contacts.push({ "name": name, "id": uuidv4(), "number": number });
-  
-      
-    this.setState({ contacts: contacts });
+    const isInList = contacts.some(contact => contact.name === name);
 
-  }
-     
+    isInList
+      ? alert(name + ' is already in contacts.')
+      : contacts.push({ name: name, id: uuidv4(), number: number });
+
+    this.setState({ contacts: contacts });
+  };
+
+  HandleClickDelete = e => {
+    const { contacts } = this.state;
+    contacts.forEach((contact, index) => contact.id === e.target.id && contacts.splice(index));
+    this.setState({ contacts: contacts });
+  };
+
   render() {
-    const {  contacts, filter } = this.state;
-   
-     return (
+    const { contacts, filter } = this.state;
+
+    return (
       <>
         <h1>Phonebook</h1>
-         <ContactForm contacts={contacts} onSubmit={this.HandleFormSubmit}/>
+        <ContactForm contacts={contacts} onSubmit={this.HandleFormSubmit} />
         <h2>Contacts</h2>
-        <Filter onChangeFilter={this.HandleSearchContactByName} filter={ filter}/>
-        <ContactList filter={filter} contacts={contacts} />
-    </>)
-  };
+        <Filter onChangeFilter={this.HandleSearchContactByName} filter={filter} />
+        <ContactList filter={filter} contacts={contacts} onClickDelete={this.HandleClickDelete} />
+      </>
+    );
+  }
 }
-
-
