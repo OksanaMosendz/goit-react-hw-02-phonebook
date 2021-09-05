@@ -18,13 +18,15 @@ export class App extends React.Component {
 
   HandleFormSubmit = (name, number) => {
     const { contacts } = this.state;
-    contacts.push({ "name": name, "id": uuidv4(), "number": number });
+    const isInList = contacts.some((contact) => contact.name === name);
+    
+    isInList ? alert(name +' is already in contacts.' ) : contacts.push({ "name": name, "id": uuidv4(), "number": number });
+  
+      
     this.setState({ contacts: contacts });
+
   }
      
-
-  
-
   render() {
     const {  contacts, filter } = this.state;
    

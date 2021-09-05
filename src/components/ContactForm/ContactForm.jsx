@@ -15,7 +15,7 @@ export class ContactForm extends React.Component {
     this.setState({ number: e.target.value });
   };
   
-  HandleFormSubmit = (e) => {
+  FormSubmit = (e) => {
     const { name, number} = this.state;
     e.preventDefault();
     this.props.onSubmit(name, number);
@@ -27,7 +27,7 @@ export class ContactForm extends React.Component {
   const { name, number } = this.state;
     return (
 
-      <form onSubmit={this.HandleFormSubmit}>
+      <form onSubmit={this.FormSubmit}>
         <label>Name
           <input
             type="text"
