@@ -5,6 +5,7 @@ export class App extends React.Component {
   
   state = {
     contacts: [],
+    filter:'',
     name: '',
     number: '',
   };
@@ -22,28 +23,33 @@ export class App extends React.Component {
     e.preventDefault();
     contacts.push({ "name": name, "id": uuidv4( ), "number": number });
     this.setState({ name: '', number:'' });
-    console.log(contacts);
-
   }
 
+  HandleSearchContactByName = (e) => {
+    this.setState({ filter: e.target.value });
+
+    console.log(this.state.filter);
+  }
+
+  
+
   render() {
-    const { name, contacts, number } = this.state;
+    const { name, contacts, number, filter } = this.state;
+    const filteredContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(filter.toLowerCase()));
   
     return (
       <>
-        <h1>Phonebook</h1>
-        <form onSubmit={this.handleFormSubmit} >
-          <label >Name
-          <input
-      
+      <h1>Phonebook</h1>
+      <form onSubmit={this.handleFormSubmit}>
+      <label>Name
+  <input  
     type="text"
-              name="name"
-              value={name}
-              onChange={this.HandleNameInput}
+    name="name"
+    value={name}
+    onChange={this.HandleNameInput}
     pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
     title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-    required
-          />
+              required />
           </label>
 
            <label >Number
@@ -56,15 +62,25 @@ export class App extends React.Component {
   title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
   required
 />
-</label>
-          <button type="submit">Add contact</button>
-          </form>
+          </label>
 
+           <button type="submit">Add contact</button>
+        </form>
+        
         <h2>Contacts</h2>
-   
-        {contacts.length > 0 && <ul>{contacts.map((contact) => <li key={contact.id} >{contact.name}:{contact.number}</li>)}</ul> }
-    
-      
+
+        <label> Find contacts by name
+        <input
+  type="text"
+          
+            value={filter}
+             onChange={this.HandleSearchContactByName}
+  pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+  title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+  required
+/> </label>
+        {filteredContacts.length > 0 && <ul>{filteredContacts.map((contact) => <li key={contact.id} >{contact.name}:{contact.number}</li>)}</ul>}
+        
     </>)
   };
 }
