@@ -17,7 +17,7 @@ export class App extends React.Component {
 
   HandleFormSubmit = (name, number) => {
     const { contacts } = this.state;
-    const isInList = contacts.some(contact => contact.name === name);
+    const isInList = contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
 
     isInList
       ? alert(name + ' is already in contacts.')
