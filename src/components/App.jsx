@@ -28,7 +28,7 @@ export class App extends React.Component {
 
   HandleClickDelete = e => {
     const { contacts } = this.state;
-    contacts.forEach((contact, index) => contact.id === e.target.id && contacts.splice(index));
+    contacts.forEach((contact, index) => contact.id === e.target.id && contacts.splice(index,1));
     this.setState({ contacts: contacts });
   };
 
